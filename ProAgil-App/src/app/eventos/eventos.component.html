@@ -10,7 +10,7 @@
       <th>
         <button class="btn btn-outline-primary"
           (click)="alternarImage()">
-          Mostrar Imgaem
+          <i class="{{mostrarImagem ? 'fa fa-eye-slash' : 'fa fa-eye'}}" ></i>
         </button>
       </th>
       <th>#</th>
@@ -26,20 +26,33 @@
     <tr *ngFor="let evento of eventosFiltradros">
       <td>
         <img *ngIf="mostrarImagem"
-         src="http://localhost:5000/img/{{evento.imagemUrl}}" alt="{{evento.tema}}"
+         src="http://localhost:5000/img/{{evento.imagemURL}}" alt="{{evento.tema}}"
          [style.width.px]="imagemLargura"
          [style.margin.px]="imagemMargem"
          >
       </td>
-      <td>{{evento.eventoId}}</td>
+      <td>{{evento.id}}</td>
       <td>{{evento.tema}}</td>
       <td>{{evento.local}}</td>
-      <td>{{evento.dataEvento}}</td>
+      <td>{{evento.dataEvento | DateTimeFormatPipe }}</td>
       <td>{{evento.qtdPessoas}}</td>
-      <td>{{evento.lote | uppercase }}</td>
       <td>
-        <button class="btn btn-success"></button>
-        <button class="btn btn-danger"></button>
+        <div *ngIf="!evento.lotes.length" >
+          Não Informado
+        </div>
+        <div *ngIf="evento.lotes.length" >
+          {{evento.lotes[0].nome | uppercase }}
+        </div>
+      </td>
+      <td>
+        <div class="btn-group">
+          <button class="btn btn-sm btn-primary" tooltip="Editar">
+            <i class="fa fa-edit" (click)="openModal(template)"></i>
+          </button>
+          <button class="btn btn-sm btn-danger" tooltip="Excluir">
+            <i class="fa fa-eraser"></i>
+          </button>
+        </div>
       </td>
     </tr>
   </tbody>
@@ -49,3 +62,16 @@
     </tr>
   </tfoot>
 </table>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Modal</h4>
+    <button type="button" class="close pull-right" 
+    aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  This is a modal.
+</div>
+</ng-template>
