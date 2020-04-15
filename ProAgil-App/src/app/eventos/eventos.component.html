@@ -75,3 +75,53 @@
   This is a modal.
 </div>
 </ng-template>
+
+
+
+<form [formGroup]="registerForm">
+  <div class="form-row">
+    <div class="form-group col-md-12">
+      <label>Tema</label>
+      <input type="text" class="form-control" formControlName="tema" placeholder="">
+    </div>
+  </div>  
+  <div class="form-row">
+    <div class="form-group col-md-8">
+      <label>Local</label>
+      <input type="text" class="form-control" formControlName="local" placeholder="">
+    </div>
+    <div class="form-group col-md-4">
+      <label>Data e Hora</label>
+      <input type="text" class="form-control" formControlName="dataEvento" placeholder="">
+    </div>
+  </div>  
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <label>Qtd Pessoas</label>
+      <input type="text" class="form-control" formControlName="qtdPessoas" placeholder="">
+    </div>
+    <div class="form-group col-md-9">
+      <label>Imagem</label>
+      <input type="text" class="form-control" formControlName="imagemURL" placeholder="">
+    </div>
+  </div>  
+  <div class="form-row">
+    <div class="form-group col-md-8">
+      <label>Telefone</label>
+      <input type="text" class="form-control" formControlName="telefone" placeholder="">
+    </div>
+    <div class="form-group col-md-4">
+      <label>Email</label>
+      <input type="text" class="form-control" formControlName="email" placeholder="">
+    </div>
+  </div> 
+</form>
+<br>
+<button class="btn btn-secondary" (click)="openModal(template)">
+  Fechar
+</button>
+<button class="btn btn-primary" (click)="salvarAlteracoes()">
+  Salvar Alterações
+</button>
+<br>
+<br>

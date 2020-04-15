@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { EventoService } from '../_services/evento/evento.service';
 import { Evento } from '../_models/Evento';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-eventos',
@@ -25,6 +26,7 @@ export class EventosComponent implements OnInit {
   imagemMargem = 2;
   mostrarImagem = false;
   modalRef: BsModalRef;
+  registerForm: FormGroup;
 
   constructor(private eventoService: EventoService, private modalService: BsModalService) { }
 
@@ -33,6 +35,7 @@ export class EventosComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.validation();
     this.getEventos();
   }
 
@@ -45,6 +48,22 @@ export class EventosComponent implements OnInit {
 
   alternarImage() {
     this.mostrarImagem = !this.mostrarImagem;
+  }
+
+  validation() {
+    this.registerForm = new FormGroup({
+      tema: new FormControl,
+      local: new FormControl,
+      dataEvento: new FormControl,
+      imagemURL: new FormControl,
+      qtdPessoas: new FormControl,
+      telefone: new FormControl,
+      email: new FormControl
+    });
+  }
+
+  salvarAlteracoes() {
+
   }
 
   getEventos() {
