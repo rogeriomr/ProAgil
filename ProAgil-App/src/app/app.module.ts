@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,6 +25,7 @@ import { DateTimeFormatPipePipe } from './_helpers/DateTimeFormatPipe.pipe';
       BrowserModule,
       BrowserAnimationsModule,
       BsDropdownModule.forRoot(),
+      BsDatepickerModule.forRoot(),
       TooltipModule.forRoot(),
       ModalModule.forRoot(),
       AppRoutingModule,
