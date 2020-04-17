@@ -37,7 +37,7 @@
   <tr *ngFor="let evento of eventosFiltradros">
     <td>
       <img *ngIf="mostrarImagem"
-      src="http://localhost:5000/img/{{evento.imagemURL}}" alt="{{evento.tema}}"
+      src="http://localhost:5000/resources/images/{{evento.imagemURL}}?_ts={{dataAtual}}" alt="{{evento.tema}}"
       [style.width.px]="imagemLargura"
       [style.margin.px]="imagemMargem"
       >
@@ -89,48 +89,69 @@ role="dialog" aria-labelledby="dialog-sizes-name1">
         <div class="form-row">
           <div class="form-group col-md-12">
             <label>Tema</label>
-            <input type="text" [ngClass]="{'is-invalid': registerForm.get('tema').errors && registerForm.get('tema').touched}" class="form-control" formControlName="tema" placeholder="">
-            <div *ngIf="registerForm.get('tema').hasError('required') && registerForm.get('tema').touched" class="invalid-feedback">Tema é Obrigatório</div>
-            <div *ngIf="registerForm.get('tema').hasError('minlength') && registerForm.get('tema').touched" class="invalid-feedback">Tema Deve Ter no Mínimo 4 Carateres</div>
-            <div *ngIf="registerForm.get('tema').hasError('maxlength') && registerForm.get('tema').touched" class="invalid-feedback">Tema Deve Ter no Máximo 50 Carateres</div>
+            <input type="text" [ngClass]="{'is-invalid': registerForm.get('tema').errors && registerForm.get('tema').touched}"
+              class="form-control" formControlName="tema" placeholder="">
+            <div *ngIf="registerForm.get('tema').hasError('required') && registerForm.get('tema').touched" 
+              class="invalid-feedback">Tema é Obrigatório</div>
+            <div *ngIf="registerForm.get('tema').hasError('minlength') && registerForm.get('tema').touched" 
+              class="invalid-feedback">Tema Deve Ter no Mínimo 4 Carateres</div>
+            <div *ngIf="registerForm.get('tema').hasError('maxlength') && registerForm.get('tema').touched" 
+              class="invalid-feedback">Tema Deve Ter no Máximo 50 Carateres</div>
           </div>
         </div>  
         <div class="form-row">
           <div class="form-group col-md-8">
             <label>Local</label>
-            <input type="text" [ngClass]="{'is-invalid': registerForm.get('local').errors && registerForm.get('local').touched}" class="form-control" formControlName="local" placeholder="">
+            <input type="text" [ngClass]="{'is-invalid': registerForm.get('local').errors && registerForm.get('local').touched}" 
+              class="form-control" formControlName="local" placeholder="">
             <div class="invalid-feedback">Local é Obrigatório</div>
           </div>
           <div class="form-group col-md-4">
             <label>Data e Hora</label>
-            <input type="text" [ngClass]="{'is-invalid': registerForm.get('dataEvento').errors && registerForm.get('dataEvento').touched}" class="form-control" formControlName="dataEvento" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY h:mm a' }" placeholder="">
+            <input type="text" [ngClass]="{'is-invalid': registerForm.get('dataEvento').errors && registerForm.get('dataEvento').touched}" 
+              class="form-control" formControlName="dataEvento" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY h:mm a' }" placeholder="">
             <div class="invalid-feedback">Data e Hora é Obrigatório</div>
           </div>
         </div>  
         <div class="form-row">
           <div class="form-group col-md-3">
             <label>Quantidades de Pessoas</label>
-            <input type="text" [ngClass]="{'is-invalid': registerForm.get('qtdPessoas').errors && registerForm.get('qtdPessoas').touched}" class="form-control" formControlName="qtdPessoas" placeholder="">
-            <div *ngIf="registerForm.get('qtdPessoas').hasError('required') && registerForm.get('qtdPessoas').touched" class="invalid-feedback">Quantidades de Pessoas é Obrigatório</div>
-            <div *ngIf="registerForm.get('qtdPessoas').hasError('max') && registerForm.get('qtdPessoas').touched" class="invalid-feedback">A Quantidade Máxima de Pessoas é de 1.000</div>
+            <input type="text" [ngClass]="{'is-invalid': registerForm.get('qtdPessoas').errors && registerForm.get('qtdPessoas').touched}" 
+              class="form-control" formControlName="qtdPessoas" placeholder="">
+            <div *ngIf="registerForm.get('qtdPessoas').hasError('required') && registerForm.get('qtdPessoas').touched" 
+              class="invalid-feedback">Quantidades de Pessoas é Obrigatório</div>
+            <div *ngIf="registerForm.get('qtdPessoas').hasError('max') && registerForm.get('qtdPessoas').touched" 
+              class="invalid-feedback">A Quantidade Máxima de Pessoas é de 1.000</div>
           </div>
           <div class="form-group col-md-9">
             <label>Imagem</label>
-            <input type="text" [ngClass]="{'is-invalid': registerForm.get('imagemURL').errors && registerForm.get('imagemURL').touched}" class="form-control" formControlName="imagemURL" placeholder="">
-            <div class="invalid-feedback">Imagem é Obrigatório</div>
+            <table>
+              <tr>
+                <td>
+                  <button class="btn btn-success" (click)="file.click()">Enviar Imagem</button>
+                  <input type="file" #file [ngClass]="{'is-invalid': registerForm.get('imagemURL').errors && registerForm.get('imagemURL').touched}" 
+                    (change)="onFileChange($event)" class="form-control" formControlName="imagemURL" placeholder="" style="display: none;">
+                  <div class="invalid-feedback">Imagem é Obrigatório</div>
+                </td>
+              </tr>
+            </table>       
           </div>
         </div>  
         <div class="form-row">
           <div class="form-group col-md-8">
             <label>Telefone</label>
-            <input type="text" [ngClass]="{'is-invalid': registerForm.get('telefone').errors && registerForm.get('telefone').touched}" class="form-control" formControlName="telefone" placeholder="">
+            <input type="text" [ngClass]="{'is-invalid': registerForm.get('telefone').errors && registerForm.get('telefone').touched}" 
+              class="form-control" formControlName="telefone" placeholder="">
             <div class="invalid-feedback">Telefone é Obrigatório</div>
           </div>
           <div class="form-group col-md-4">
             <label>Email</label>
-            <input type="text" [ngClass]="{'is-invalid': registerForm.get('email').errors && registerForm.get('email').touched}" class="form-control" formControlName="email" placeholder="">
-            <div *ngIf="registerForm.get('email').hasError('required') && registerForm.get('email').touched" class="invalid-feedback">Email é Obrigatório</div>
-            <div *ngIf="registerForm.get('email').hasError('email') && registerForm.get('email').touched" class="invalid-feedback">Deve Ser um Email Válido</div>
+            <input type="text" [ngClass]="{'is-invalid': registerForm.get('email').errors && registerForm.get('email').touched}" 
+              class="form-control" formControlName="email" placeholder="">
+            <div *ngIf="registerForm.get('email').hasError('required') && registerForm.get('email').touched" 
+              class="invalid-feedback">Email é Obrigatório</div>
+            <div *ngIf="registerForm.get('email').hasError('email') && registerForm.get('email').touched" 
+              class="invalid-feedback">Deve Ser um Email Válido</div>
           </div>
         </div> 
       </form>

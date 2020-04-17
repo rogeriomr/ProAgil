@@ -23,6 +23,14 @@ getEventoById(id: number): Observable<Evento> {
   return this.http.get<Evento>(`${this.baseURL}/${id}`);
 }
 
+postImagem(file: File, name: string) {
+  const fileToUpload = <File>file[0];
+  const image = new FormData();
+  image.append('image', fileToUpload, name);
+
+  return this.http.post(`${this.baseURL}/uploads`, image);
+}
+
 postEvento(evento: Evento) {
   return this.http.post(this.baseURL, evento);
 }

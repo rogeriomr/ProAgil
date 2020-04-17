@@ -17,16 +17,19 @@ defineLocale('pt-br', ptBrLocale);
 export class EventosComponent implements OnInit {
 
   bodyDeletarEvento = '';
-  title = 'Eventos';
+  dataAtual: string;
   evento: Evento;
   eventos: Evento[];
   eventosFiltradros: Evento[];
+  file: File;
+  fileNameToUpload: string;
   imagemLargura = 50;
   imagemMargem = 2;
   modalRef: BsModalRef;
   mostrarImagem = false;
   registerForm: FormGroup;
   salvarEvento: string;
+  title = 'Eventos';
 
   constructor(
     private eventoService: EventoService,
@@ -60,10 +63,43 @@ export class EventosComponent implements OnInit {
     });
   }
 
+  onFileChange(event) {
+    const reader = new FileReader();
+
+    if(event.target.files && event.target.files.length) {
+      this.file = event.target.files;
+    }
+  }
+
+  uploadImagem() {
+    if (this.salvarEvento === 'post') {
+      const nomeArquivo = this.evento.imagemURL.split('\\', 3);
+      this.evento.imagemURL = nomeArquivo[2];
+
+      this.eventoService.postImagem(this.file, nomeArquivo[2]).subscribe(
+        () => {
+          this.dataAtual = new Date().getMilliseconds().toString();
+          this.getEventos();
+        }
+      );
+    } else {
+      this.evento.imagemURL = this.fileNameToUpload;
+      this.eventoService.postImagem(this.file, this.fileNameToUpload).subscribe(
+        () => {
+          this.dataAtual = new Date().getMilliseconds().toString();
+          this.getEventos();
+        }
+      );
+    }
+  }
+
   salvarAlteracoes(template: any) {
     if (this.registerForm.valid) {
       if (this.salvarEvento === 'post') {
         this.evento = Object.assign({}, this.registerForm.value);
+
+        this.uploadImagem();
+
         this.eventoService.postEvento(this.evento).subscribe(
           (novoEvento: Evento) => {
             template.hide();
@@ -74,6 +110,9 @@ export class EventosComponent implements OnInit {
           });
         } else {
           this.evento = Object.assign({id: this.evento.id}, this.registerForm.value);
+
+          this.uploadImagem();
+
           this.eventoService.putEvento(this.evento).subscribe(() => {
             template.hide();
             this.getEventos();
@@ -87,7 +126,9 @@ export class EventosComponent implements OnInit {
 
   editarEvento(template: any, e: Evento) {
     this.openModal(template);
-    this.evento = e;
+    this.evento = Object.assign({}, e);
+    this.fileNameToUpload = this.evento.imagemURL;
+    this.evento.imagemURL = '';
     this.registerForm.patchValue(this.evento);
     this.salvarEvento = 'put';
   }
