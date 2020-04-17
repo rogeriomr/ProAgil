@@ -1,11 +1,12 @@
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Component, OnInit, TemplateRef } from '@angular/core';
+import { defineLocale } from 'ngx-bootstrap/chronos';
 import { EventoService } from '../_services/evento/evento.service';
 import { Evento } from '../_models/Evento';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
-import { BsLocaleService } from 'ngx-bootstrap/datepicker';
-import { defineLocale } from 'ngx-bootstrap/chronos';
+import { ToastrService } from 'ngx-toastr';
 defineLocale('pt-br', ptBrLocale);
 
 @Component({
@@ -14,6 +15,27 @@ defineLocale('pt-br', ptBrLocale);
   styleUrls: ['./eventos.component.css']
 })
 export class EventosComponent implements OnInit {
+
+  bodyDeletarEvento = '';
+  title = 'Eventos';
+  evento: Evento;
+  eventos: Evento[];
+  eventosFiltradros: Evento[];
+  imagemLargura = 50;
+  imagemMargem = 2;
+  modalRef: BsModalRef;
+  mostrarImagem = false;
+  registerForm: FormGroup;
+  salvarEvento: string;
+
+  constructor(
+    private eventoService: EventoService,
+    private fb: FormBuilder,
+    private localeSerbice: BsLocaleService,
+    private modalService: BsModalService,
+    private toastr: ToastrService) {
+      this.localeSerbice.use('pt-br');
+  }
 
   _filtroLista: string;
   get filtroLista(): string {
@@ -24,28 +46,43 @@ export class EventosComponent implements OnInit {
     this.eventosFiltradros = this.filtroLista ? this.filtrarEventos(this.filtroLista) : this.eventos;
   }
 
-  eventosFiltradros: Evento[];
-  eventos: Evento[];
-  evento: Evento;
-  salvarEvento: string;
-  imagemLargura = 50;
-  imagemMargem = 2;
-  mostrarImagem = false;
-  modalRef: BsModalRef;
-  registerForm: FormGroup;
-  bodyDeletarEvento = '';
-
-  constructor(private eventoService: EventoService,
-              private modalService: BsModalService,
-              private fb: FormBuilder,
-              private localeSerbice: BsLocaleService) {
-    this.localeSerbice.use('pt-br');
+  ngOnInit() {
+    this.validation();
+    this.getEventos();
   }
 
-  openModal(template: any) {
-    this.registerForm.reset();
-    template.show();
-    this.salvarEvento = 'post';
+  getEventos() {
+    this.eventoService.getAllEventos().subscribe((_eventos: Evento[]) => {
+      this.eventos = _eventos;
+      this.eventosFiltradros = _eventos;
+    }, error => {
+      this.toastr.error(`Erro ao Tentar Carregar Eventos: ${error}`);
+    });
+  }
+
+  salvarAlteracoes(template: any) {
+    if (this.registerForm.valid) {
+      if (this.salvarEvento === 'post') {
+        this.evento = Object.assign({}, this.registerForm.value);
+        this.eventoService.postEvento(this.evento).subscribe(
+          (novoEvento: Evento) => {
+            template.hide();
+            this.getEventos();
+            this.toastr.success('Inserido Com Sucesso!');
+          }, error => {
+            this.toastr.error(`Erro ao Inserir: ${error}`);
+          });
+        } else {
+          this.evento = Object.assign({id: this.evento.id}, this.registerForm.value);
+          this.eventoService.putEvento(this.evento).subscribe(() => {
+            template.hide();
+            this.getEventos();
+            this.toastr.success('Atualizado Com Sucesso!');
+          }, error => {
+            this.toastr.error(`Erro ao Atualizar: ${error}`);
+          });
+        }
+    }
   }
 
   editarEvento(template: any, e: Evento) {
@@ -64,24 +101,18 @@ export class EventosComponent implements OnInit {
   confirmeDelete(template: any) {
     this.eventoService.delEvento(this.evento.id).subscribe(
       () => {
-          template.hide();
-          this.getEventos();
-        }, error => {
-          console.log(error);
-        }
+        template.hide();
+         this.getEventos();
+        this.toastr.success('Deletado Com Sucesso!');
+      }, error => {
+        this.toastr.success('Erro ao Tentar Deletar!');
+      }
     );
-  }
-
-  ngOnInit() {
-    this.validation();
-    this.getEventos();
   }
 
   filtrarEventos(filtrarPor: string): Evento[] {
     filtrarPor = filtrarPor.toLocaleLowerCase();
-    return this.eventos.filter(
-      evento => evento.tema.toLocaleLowerCase().indexOf(filtrarPor) !== -1
-    );
+    return this.eventos.filter(evento => evento.tema.toLocaleLowerCase().indexOf(filtrarPor) !== -1);
   }
 
   alternarImage() {
@@ -100,40 +131,10 @@ export class EventosComponent implements OnInit {
     });
   }
 
-  salvarAlteracoes(template: any) {
-    if (this.registerForm.valid) {
-      if (this.salvarEvento === 'post') {
-        this.evento = Object.assign({}, this.registerForm.value);
-        this.eventoService.postEvento(this.evento).subscribe(
-          (novoEvento: Evento) => {
-            template.hide();
-            this.getEventos();
-          }, error => {
-            console.log(error);
-          }
-        );
-      } else {
-        this.evento = Object.assign({id: this.evento.id}, this.registerForm.value);
-        this.eventoService.putEvento(this.evento).subscribe(
-          () => {
-            template.hide();
-            this.getEventos();
-          }, error => {
-            console.log(error);
-          }
-        );
-      }
-    }
-  }
-
-  getEventos() {
-    this.eventoService.getAllEventos().subscribe(
-      (_eventos: Evento[]) => {
-      this.eventos = _eventos;
-      this.eventosFiltradros = _eventos;
-    }, error => {
-      console.log(error);
-    });
+  openModal(template: any) {
+    this.registerForm.reset();
+    template.show();
+    this.salvarEvento = 'post';
   }
 
 }
