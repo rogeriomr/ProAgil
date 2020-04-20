@@ -40,6 +40,7 @@ export class EventosComponent implements OnInit {
       this.localeSerbice.use('pt-br');
   }
 
+  // tslint:disable-next-line: variable-name
   _filtroLista: string;
   get filtroLista(): string {
     return this._filtroLista;
@@ -55,6 +56,7 @@ export class EventosComponent implements OnInit {
   }
 
   getEventos() {
+    // tslint:disable-next-line: variable-name
     this.eventoService.getAllEventos().subscribe((_eventos: Evento[]) => {
       this.eventos = _eventos;
       this.eventosFiltradros = _eventos;
@@ -66,7 +68,7 @@ export class EventosComponent implements OnInit {
   onFileChange(event) {
     const reader = new FileReader();
 
-    if(event.target.files && event.target.files.length) {
+    if (event.target.files && event.target.files.length) {
       this.file = event.target.files;
     }
   }
@@ -143,7 +145,7 @@ export class EventosComponent implements OnInit {
     this.eventoService.delEvento(this.evento.id).subscribe(
       () => {
         template.hide();
-         this.getEventos();
+        this.getEventos();
         this.toastr.success('Deletado Com Sucesso!');
       }, error => {
         this.toastr.success('Erro ao Tentar Deletar!');

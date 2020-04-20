@@ -24,7 +24,8 @@ getEventoById(id: number): Observable<Evento> {
 }
 
 postImagem(file: File, name: string) {
-  const fileToUpload = <File>file[0];
+  // tslint:disable-next-line: no-angle-bracket-type-assertion
+  const fileToUpload = <File> file[0];
   const image = new FormData();
   image.append('image', fileToUpload, name);
 
