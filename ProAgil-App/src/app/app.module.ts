@@ -5,7 +5,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ToastrModule } from 'ngx-toastr';
@@ -15,11 +15,16 @@ import { AppComponent } from './app.component';
 import { ContatosComponent } from './contatos/contatos.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EventosComponent } from './eventos/eventos.component';
+import { LoginComponent } from './user/login/login.component';
 import { NavComponent } from './nav/nav.component';
 import { PalestrantesComponent } from './palestrantes/palestrantes.component';
+import { RegisterComponent } from './user/register/register.component';
 import { TituloComponent } from './_shared/titulo/titulo.component';
+import { UserComponent } from './user/user.component';
 
+import { AuthInterceptor } from './auth/auth.interceptor';
 import { DateTimeFormatPipePipe } from './_helpers/DateTimeFormatPipe.pipe';
+
 
 @NgModule({
    declarations: [
@@ -28,9 +33,12 @@ import { DateTimeFormatPipePipe } from './_helpers/DateTimeFormatPipe.pipe';
       DashboardComponent,
       DateTimeFormatPipePipe,
       EventosComponent,
+      LoginComponent,
       NavComponent,
       PalestrantesComponent,
+      RegisterComponent,
       TituloComponent,
+      UserComponent
    ],
    imports: [
       AppRoutingModule,
@@ -50,7 +58,13 @@ import { DateTimeFormatPipePipe } from './_helpers/DateTimeFormatPipe.pipe';
        }),
       TooltipModule.forRoot(),
    ],
-   providers: [],
+   providers: [
+      {
+         provide: HTTP_INTERCEPTORS,
+         useClass: AuthInterceptor,
+         multi: true
+      }
+   ],
    bootstrap: [
       AppComponent
    ]
