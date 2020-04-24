@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/_services/auth/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  title = 'Login';
+  title = '';
   model: any = {};
 
   constructor(

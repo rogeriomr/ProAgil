@@ -1,3 +1,35 @@
-<p>
-  dashboard works!
-</p>
+<div class="container mt-5">
+  <div class="row mbr-justify-content-center">
+    <div class="col-lg-6 mbr-col-md-10">
+        <div class="wrap" (click)="router.navigate(['/evento'])">
+            <div class="ico-wrap">
+                <span class="mbr-iconfont fa-calendar-check fa"></span>
+            </div>
+            <div class="text-wrap vcenter">
+                <h2 class="mbr-fonts-style mbr-bold mbr-section-title3 display-5">Eventos</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 mbr-col-md-10">
+        <div class="wrap" (click)="router.navigate(['/palestrantes'])">
+            <div class="ico-wrap">
+                <span class="mbr-iconfont fa-male fa"></span>
+            </div>
+            <div class="text-wrap vcenter">
+                <h2 class="mbr-fonts-style mbr-bold mbr-section-title3 display-5">Palestrantes</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 mbr-col-md-10">
+        <div class="wrap" (click)="router.navigate(['/contato'])">
+            <div class="ico-wrap">
+                <span class="mbr-iconfont fa-file-contract fa"></span>
+            </div>
+            <div class="text-wrap vcenter">
+                <h2 class="mbr-fonts-style mbr-bold mbr-section-title3 display-5">Contato</h2>
+            </div>
+        </div>
+    </div>
+    
+  </div>
+</div>

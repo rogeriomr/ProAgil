@@ -36,7 +36,7 @@
             </div>
             <div class="form-group col-md-4">
               <label>Data e Hora</label>
-              <input type="text" class="form-control" [(ngModel)]="evento.dataEvento" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY h:mm a' }"
+              <input type="text" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY h:mm a' }"
                 value="{{evento.dataEvento}}" [(ngModel)]="evento.dataEvento"
                 [ngClass]="{'is-invalid': registerForm.get('dataEvento').errors 
             && registerForm.get('dataEvento').touched}" formControlName="dataEvento" placeholder="">
@@ -47,7 +47,7 @@
             </div>
           </div>
           <div class="form-row">
-            <div class="form-group col-md-2">
+            <div class="form-group col-md-3">
               <label>Quantidade Pessoas</label>
               <input type="text" [(ngModel)]="evento.qtdPessoas" [ngClass]="{'is-invalid': registerForm.get('qtdPessoas').errors 
               && registerForm.get('qtdPessoas').touched}" class="form-control is-invalid" formControlName="qtdPessoas"
@@ -71,7 +71,7 @@
                 Telefone é obrigatório.
               </div>
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-5">
               <label>Email</label>
               <input type="text" class="form-control" [(ngModel)]="evento.email" [ngClass]="{'is-invalid': registerForm.get('email').errors 
             && registerForm.get('email').touched}" formControlName="email" placeholder="e-mail">
