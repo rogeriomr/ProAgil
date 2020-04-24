@@ -30,7 +30,7 @@
     <th>Data</th>
     <th>Qtd Pessoas</th>
     <th>Lote</th>
-    <th>Opções</th>
+    <th colspan="2" class="text-center">Opções</th>
   </tr>
 </thead>
 <tbody *ngIf="eventosFiltradros && eventosFiltradros.length">
@@ -64,6 +64,11 @@
           <i class="fa fa-eraser"></i>
         </button>
       </div>
+    </td>
+    <td>
+      <a [routerLink]="['/evento', evento.id, 'edit']" tooltip="Editar Detalhado" class="btn btn-sm btn-warning">
+        <i class="fa fa-edit"></i>
+      </a>
     </td>
   </tr>
 </tbody>
@@ -109,7 +114,7 @@ role="dialog" aria-labelledby="dialog-sizes-name1">
           <div class="form-group col-md-4">
             <label>Data e Hora</label>
             <input type="text" [ngClass]="{'is-invalid': registerForm.get('dataEvento').errors && registerForm.get('dataEvento').touched}" 
-              class="form-control" formControlName="dataEvento" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY h:mm a' }" placeholder="">
+              class="form-control" formControlName="dataEvento" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY h:mm' }" placeholder="">
             <div class="invalid-feedback">Data e Hora é Obrigatório</div>
           </div>
         </div>  

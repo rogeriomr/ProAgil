@@ -7,13 +7,17 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { NgxCurrencyModule } from 'ngx-currency';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ToastrModule } from 'ngx-toastr';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { AppComponent } from './app.component';
 import { ContatosComponent } from './contatos/contatos.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { EventoEditComponent } from './eventos/eventoEdit/eventoEdit.component';
 import { EventosComponent } from './eventos/eventos.component';
 import { LoginComponent } from './user/login/login.component';
 import { NavComponent } from './nav/nav.component';
@@ -32,6 +36,7 @@ import { DateTimeFormatPipePipe } from './_helpers/DateTimeFormatPipe.pipe';
       ContatosComponent,
       DashboardComponent,
       DateTimeFormatPipePipe,
+      EventoEditComponent,
       EventosComponent,
       LoginComponent,
       NavComponent,
@@ -50,7 +55,10 @@ import { DateTimeFormatPipePipe } from './_helpers/DateTimeFormatPipe.pipe';
       FormsModule,
       HttpClientModule,
       ModalModule.forRoot(),
+      NgxCurrencyModule,
+      NgxMaskModule.forRoot(),
       ReactiveFormsModule,
+      TabsModule.forRoot(),
       ToastrModule.forRoot({
          timeOut: 3000,
          progressBar: true,

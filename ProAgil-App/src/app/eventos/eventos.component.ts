@@ -56,6 +56,7 @@ export class EventosComponent implements OnInit {
   }
 
   getEventos() {
+    this.dataAtual = new Date().getMilliseconds().toString();
     // tslint:disable-next-line: variable-name
     this.eventoService.getAllEventos().subscribe((_eventos: Evento[]) => {
       this.eventos = _eventos;
